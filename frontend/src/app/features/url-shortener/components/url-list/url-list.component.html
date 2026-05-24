@@ -1,0 +1,77 @@
+<div class="space-y-4">
+  @if (loading) {
+    <div class="text-center py-8">
+      <p class="text-gray-500">Loading...</p>
+    </div>
+  } @else if (urls.length === 0) {
+    <div class="text-center py-8">
+      <p class="text-gray-500">No shortened URLs yet. Create one above!</p>
+    </div>
+  } @else {
+    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+      <table class="min-w-full divide-y divide-gray-300">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Short URL</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Original URL</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Hits</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Created</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Expires</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 bg-white">
+          @for (url of urls; track url.code) {
+            <tr class="hover:bg-gray-50">
+              <td class="whitespace-nowrap px-3 py-4 text-sm">
+                <div class="flex items-center gap-2">
+                  <span class="font-mono text-indigo-600">{{ url.code }}</span>
+                  <button
+                    (click)="copyToClipboard(url.shortUrl)"
+                    class="text-gray-400 hover:text-indigo-600"
+                    title="Copy to clipboard"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+              <td class="px-3 py-4 text-sm">
+                <a [href]="url.originalUrl" target="_blank" class="text-indigo-600 hover:text-indigo-900 truncate block max-w-xs">
+                  {{ url.originalUrl }}
+                </a>
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                {{ url.hitCount | number }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                {{ url.createdAt | date:'short' }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm">
+                @if (url.expiresAt) {
+                  <span [class.text-red-600]="isExpired(url.expiresAt)" [class.text-gray-500]="!isExpired(url.expiresAt)">
+                    {{ url.expiresAt | date:'short' }}
+                  </span>
+                } @else {
+                  <span class="text-gray-400">Never</span>
+                }
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm">
+                <button
+                  (click)="deleteUrl(url.code)"
+                  class="text-red-600 hover:text-red-900"
+                  title="Delete URL"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
