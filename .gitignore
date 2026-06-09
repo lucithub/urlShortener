@@ -103,10 +103,32 @@ lerna-debug.log*
 .env.production.local
 *.env
 *.env.*
-**/frontend/src/environments/environment.development.ts
-**/frontend/src/environments/environment.production.ts
 
 # ------------------------------------------------------------------------------
 # Agent & AI Tooling (Session files / logs)
 # ------------------------------------------------------------------------------
 .atl/
+
+# ------------------------------------------------------------------------------
+# Testing & Coverage (Vitest / Angular)
+# ------------------------------------------------------------------------------
+**/frontend/coverage/
+frontend/coverage/
+
+# ------------------------------------------------------------------------------
+# Linters & Formatters
+# ------------------------------------------------------------------------------
+.eslintcache
+.stylelintcache
+.prettiercache
+
+# ------------------------------------------------------------------------------
+# Tools & Scripts temporary files
+# ------------------------------------------------------------------------------
+tools/*.tmp
+tools/*.log
+scripts/*.tmp
+scripts/*.log
+
+# Vite cache
+**/frontend/.vite/
